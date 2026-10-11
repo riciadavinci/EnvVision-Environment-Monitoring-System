@@ -1,0 +1,27 @@
+name: Firmware CI
+
+on:
+  push:
+    branches: [main, develop, "release/V*", "feature/**"]
+    paths:
+      - 'firmware/**'
+      - '.github/workflows/ci-dashboard.yaml'
+  pull_request:
+    branches: [main, develop]
+
+defaults:
+  run:
+    working-directory: ./dashboard
+
+jobs:
+  skeleton-check:
+    name: Bootstrap Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Verify Dashboard Directory Exists
+        run: echo "Dashboard directory initialized successfully."
+
+      
