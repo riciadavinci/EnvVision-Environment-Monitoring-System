@@ -1,4 +1,4 @@
-name: Dashboard CI
+name: Desktop Dashboard CI
 
 on:
   push:
