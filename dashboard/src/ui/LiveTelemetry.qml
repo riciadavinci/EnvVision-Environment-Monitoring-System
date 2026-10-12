@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtCharts
+import "components"
 
 Item {
     id: liveTelemetryView
@@ -278,278 +279,44 @@ Item {
             // Quadrant 2: Temperature Chart (Top-right)
             // ================================================================
 
-            Rectangle {
-                id: temperatureSeriesCard
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                color: "#FFFFFF"
-                border.color: "#CBD5E1"
-                radius: 8
-
-                property bool isPaused: false
-
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 8
-                    spacing: 4
-
-                    RowLayout {
-                        Layout.fillWidth: true
-
-                        Text {
-                            text: "Temperature vs Time"
-                            font.bold: true
-                            font.pixelSize: 14
-                        }
-
-                        Item { Layout.fillWidth: true }
-
-                        Button {
-                            text: "📷"
-                            onClicked: {
-                                temperatureChart.grabToImage(function(result) {
-                                    var fileName = "temperature_snapshot.png"
-                                    var success = result.saveToFile(fileName)
-                                    if (success) {
-                                        console.log("Screenshot saved successfully!")
-                                    } else {
-                                        console.error("Failed to save screenshot!")
-                                    }
-                                })
-
-                                telemetryGridMain.grabToImage(function(result) {
-                                    var fileName = "telemetry_snapshot.png"
-                                    var success = result.saveToFile(fileName)
-                                    if (success) {
-                                        console.log("Screenshot saved successfully!")
-                                    } else {
-                                        console.error("Failed to save screenshot!")
-                                    }
-                                })
-                            }
-                        }
-
-                        Button {
-                            text: temperatureSeriesCard.isPaused ? "PAUSED" : "LIVE"
-                            onClicked: temperatureSeriesCard.isPaused = !temperatureSeriesCard.isPaused
-                        }
-                    }
-
-                    // 
-                    ChartView {
-                        id: temperatureChart
-                        title: "Temperature (°C)"
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: 0
-                        Layout.preferredHeight: 0
-                        Layout.minimumWidth: 0
-                        Layout.minimumHeight: 0
-                        antialiasing: true
-                        legend.visible: true
-
-                        DateTimeAxis {
-                            id: tempAxisX
-                            format: "hh:mm:ss"
-                            titleText: "Time"
-                            tickCount: 7
-                            min: new Date(Date.now() - 60000)
-                            max: new Date(Date.now())
-                        }
-
-                        ValueAxis {
-                            id: tempAxisY
-                            min: -20
-                            max: 100
-                            titleText: "°C"
-                        }
-
-                        LineSeries {
-                            id: tempSeries
-                            axisX: tempAxisX
-                            axisY: tempAxisY
-                            pointsVisible: true
-                            pointLabelsVisible: false
-
-                            onHovered: (point, state) => {
-                                if (state) {
-                                    var timeStr = Qt.formatDateTime(new Date(point.x), "hh:mm:ss.zzz")
-                                    var valueStr = point.y.toFixed(2) + " hPa"
-                                    temperatureChart.ToolTip.show(timeStr + "\n" + valueStr, 3000)
-                                } else {
-                                    temperatureChart.ToolTip.hide()
-                                }
-                            }
-                        }
-
-                        VXYModelMapper {
-                            series: tempSeries
-                            model: telemetryController.temperatureModel
-                            xColumn: 0
-                            yColumn: 1
-                        }
-
-                        Connections {
-                            target: telemetryController.activeNodeModel
-
-                            function onTelemetryUpdated() {
-                                var latestMs = telemetryController.activeNodeModel.timestamp
-                                if (latestMs > 0) {
-                                    tempAxisX.max = new Date(latestMs)
-                                    tempAxisX.min = new Date(latestMs - 60000)
-                                }
-                            }
-                        }
-                    }
-                }
-
+            TelemetryGraphPanel {
+                panelTitle: "Temperature vs Time"
+                yAxisTitle: "°C"
+                unitSuffix: "°C"
+                minimumY: -20
+                maximumY: 100
+                dataModel: telemetryController.temperatureModel
+                activeNode: telemetryController.activeNodeModel
             }
-
-
-
 
 
             // ================================================================
             // Quadrant 3: Pressure Chart (Top-right)
             // ================================================================
 
-            ChartView {
-                id: pressureChart
-                title: "Pressure (hPa)"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredWidth: 0
-                Layout.preferredHeight: 0
-                Layout.minimumWidth: 0
-                Layout.minimumHeight: 0
-                antialiasing: true
-                legend.visible: true
-
-                DateTimeAxis {
-                    id: pressAxisX
-                    format: "hh:mm:ss"
-                    titleText: "Time"
-                    tickCount: 7
-                    min: new Date(Date.now() - 60000)
-                    max: new Date(Date.now())
-                }
-
-                ValueAxis {
-                    id: pressAxisY
-                    min: 975
-                    max: 1030
-                    titleText: "hPa"
-                }
-
-                LineSeries {
-                    id: pressSeries
-                    axisX: pressAxisX
-                    axisY: pressAxisY
-                    pointsVisible: true
-                    pointLabelsVisible: false
-
-                    onHovered: (point, state) => {
-                        if (state) {
-                            var timeStr = Qt.formatDateTime(new Date(point.x), "hh:mm:ss.zzz")
-                            var valueStr = point.y.toFixed(2) + " hPa"
-                            pressureChart.ToolTip.show(timeStr + "\n" + valueStr, 3000)
-                        } else {
-                            pressureChart.ToolTip.hide()
-                        }
-                    }
-                }
-
-                VXYModelMapper {
-                    series: pressSeries
-                    model: telemetryController.pressureModel
-                    xColumn: 0
-                    yColumn: 1
-                }
-
-                Connections {
-                    target: telemetryController.activeNodeModel
-
-                    function onTelemetryUpdated() {
-                        var latestMs = telemetryController.activeNodeModel.timestamp
-                        if (latestMs > 0) {
-                            pressAxisX.max = new Date(latestMs)
-                            pressAxisX.min = new Date(latestMs - 60000)
-                        }
-                    }
-                }
+            TelemetryGraphPanel {
+                panelTitle: "Pressure vs Time"
+                yAxisTitle: "hPa"
+                unitSuffix: "hPa"
+                minimumY: 975
+                maximumY: 1030
+                dataModel: telemetryController.pressureModel
+                activeNode: telemetryController.activeNodeModel
             }
-
-
 
 
             // ================================================================
             // Quadrant 4: Humidity Chart (Bottom-right)
             // ================================================================
 
-            ChartView {
-                id: humidityChart
-                title: "Humidity (%)"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredWidth: 0
-                Layout.preferredHeight: 0
-                Layout.minimumWidth: 0
-                Layout.minimumHeight: 0
-                antialiasing: true
-                legend.visible: true
-
-                DateTimeAxis {
-                    id: humidAxisX
-                    format: "hh:mm:ss"
-                    titleText: "Time"
-                    tickCount: 7
-                    min: new Date(Date.now() - 60000)
-                    max: new Date(Date.now())
-                }
-
-                ValueAxis {
-                    id: humidAxisY
-                    min: 0
-                    max: 100
-                    titleText: "%"
-                }
-
-                LineSeries {
-                    id: humidSeries
-                    axisX: humidAxisX
-                    axisY: humidAxisY
-                    pointsVisible: true
-                    pointLabelsVisible: false
-
-                    onHovered: (point, state) => {
-                        if (state) {
-                            var timeStr = Qt.formatDateTime(new Date(point.x), "hh:mm:ss.zzz")
-                            var valueStr = point.y.toFixed(2) + " hPa"
-                            humidityChart.ToolTip.show(timeStr + "\n" + valueStr, 3000)
-                        } else {
-                            humidityChart.ToolTip.hide()
-                        }
-                    }
-                }
-
-                VXYModelMapper {
-                    series: humidSeries
-                    model: telemetryController.humidityModel
-                    xColumn: 0
-                    yColumn: 1
-                }
-
-                Connections {
-                    target: telemetryController.activeNodeModel
-
-                    function onTelemetryUpdated() {
-                        var latestMs = telemetryController.activeNodeModel.timestamp
-                        if (latestMs > 0) {
-                            humidAxisX.max = new Date(latestMs)
-                            humidAxisX.min = new Date(latestMs - 60000)
-                        }
-                    }
-                }
+            TelemetryGraphPanel {
+                panelTitle: "Humidity vs Time"
+                yAxisTitle: "%"
+                unitSuffix: "%"
+                minimumY: 0
+                maximumY: 100
+                dataModel: telemetryController.humidityModel
+                activeNode: telemetryController.activeNodeModel
             }
 
         }

@@ -43,7 +43,10 @@ Rectangle {
                 text: "📷"
                 onClicked: {
                     temperatureChart.grabToImage(function(result) {
-                        var fileName = root.panelTitle.toLowerCase().replace(/\s+/g, "_") + "_snapshot.png"
+                        var dateTimeStr = Qt.formatDateTime(new Date(), "yyyy-MM-dd_hh-mm-ss")
+                        var baseName = root.panelTitle.toLowerCase().replace(/\s+/g, "_")
+                        var fileName = baseName + "_" + dateTimeStr + ".png"
+
                         var success = result.saveToFile(fileName)
                         if (success) {
                             console.log("Screenshot saved: " + fileName)
