@@ -74,7 +74,7 @@ Rectangle {
             Layout.minimumWidth: 0
             Layout.minimumHeight: 0
             antialiasing: true
-            legend.visible: true
+            legend.visible: false
 
             DateTimeAxis {
                 id: tempAxisX
