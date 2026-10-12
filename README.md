@@ -34,19 +34,15 @@ An end-to-end telemetry system designed for low-latency data acquisition and liv
       <sub><b>Figure 2:</b> Sensor Nodes List</sub>
     </td>
   </tr>
-    <tr>
-    <td align="center">
-      <img src="docs/img/LiveTelemetryGIF.gif" alt="Qt6 Dashboard GUI" width="400"/>
-      <br/>
-      <sub><b>Figure 3:</b> Live UDP Telemetry Graph</sub>
-    </td>
-    <td align="center">
-      <img src="docs/img/SensorNodesList.PNG" alt="Telemetry Chart" width="400"/>
-      <br/>
-      <sub><b>Figure 4:</b> Sensor Nodes List</sub>
-    </td>
-  </tr>
 </table>
+
+<br>
+
+<div align="center">
+  <img src="docs/img/LiveTelemetryDashboard.gif" alt="Qt6 Dashboard GUI" height="400"/>
+  <br/>
+  <sub><b>Figure 3:</b> Live UDP Telemetry Graph (recorded with <i>OBS Studio</i>)</sub>
+</div>
 
 <br>
 
