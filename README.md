@@ -38,10 +38,9 @@ An end-to-end telemetry system designed for low-latency data acquisition and liv
 
 <br>
 
+![Live UDP Telemetry Graph (recorded with _OBS Studio_)](docs/img/LiveTelemetryDashboard.gif)
 <div align="center">
-  <img src="docs/img/LiveTelemetryDashboard.gif" alt="Qt6 Dashboard GUI" height="400"/>
-  <br/>
-  <sub><b>Figure 3:</b> Live UDP Telemetry Graph (recorded with <i>OBS Studio</i>)</sub>
+<sub><b>Figure 3:</b> Live UDP Telemetry Graph (recorded with <i>OBS Studio</i>)</sub>
 </div>
 
 <br>
