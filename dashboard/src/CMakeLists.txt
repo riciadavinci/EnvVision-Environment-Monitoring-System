@@ -42,6 +42,7 @@ qt_add_resources(EnvDash "qml"
         ui/TelemetryLogs.qml
         ui/components/SensorNodeCard.qml
         ui/components/TelemetryGraphPanel.qml
+        ui/components/BurgerMenuItem.qml
         ui/SensorNodes.qml
         ui/fonts/MaterialSymbolsOutlined.ttf
 )

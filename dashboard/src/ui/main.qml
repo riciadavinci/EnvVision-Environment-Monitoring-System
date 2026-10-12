@@ -2,13 +2,14 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtCharts
+import "components"
 
 ApplicationWindow {
     id: window
     width: 1280
     height: 800
     visible: true
-    title: "Telemetry Dashboard"
+    title: "EnvDash - Dashboard for EnvVision"
 
     FontLoader {
         id: symbolFont
@@ -42,74 +43,41 @@ ApplicationWindow {
                 font.pixelSize: 16
                 Layout.margins: 16
             }
-
-            ItemDelegate {
-                id: liveNav
-                Layout.fillWidth: true
-                highlighted: stackView.currentItem?.objectName === "liveTelemetryView"
-
-                background: Rectangle {
-                    color: liveNav.highlighted 
-                        ? "#E0F2FE" // Soft light-blue tint when active
-                        : (liveNav.hovered ? "#F1F5F9" : "transparent") // Subtle gray on hover
-                    radius: 6 // Optional rounded corners
-                }
-
-                contentItem: RowLayout {
-                    spacing: 12
-
-                    Text {
-                        text: "\ue871"
-                        font.family: "Material Symbols Outlined"
-                        font.pixelSize: 20
-                        color: liveNav.highlighted ? "#0284C7" : "#64748B"
-                    }
-
-                    Text {
-                        text: "Live Telemetry"
-                        font.pixelSize: 14
-                        font.bold: true
-                        color: liveNav.highlighted ? "#0284C7" : "#64748B"
-                    }
-                }
-
-                onClicked: {
-                    if (stackView.depth > 0 && stackView.currentItem.objectName !== "liveTelemetryView") {
-                        stackView.replace("LiveTelemetry.qml")
-                    }
-                    navDrawer.close()
-                }
+          
+            BurgerMenuItem {
+                iconText: "\ue871"
+                titleText: "Live Telemetry"
+                targetObjectName: "liveTelemetryView"
+                targetFile: "qrc:/ui/LiveTelemetry.qml"
+                targetStackView: stackView
+                targetDrawer: navDrawer
             }
 
-            ItemDelegate {
-                text: "Sensor Nodes"
-                Layout.fillWidth: true
-                onClicked: {
-                    if (stackView.depth > 0 && stackView.currentItem.objectName !== "sensorNodes")
-                    stackView.replace("SensorNodes.qml")
-                    navDrawer.close()
-                }
+            BurgerMenuItem {
+                iconText: "\ue8f4"
+                titleText: "Sensor Nodes"
+                targetObjectName: "sensorNodes"
+                targetFile: "qrc:/ui/SensorNodes.qml"
+                targetStackView: stackView
+                targetDrawer: navDrawer
             }
 
-            ItemDelegate {
-                text: "Telemetry Logs"
-                Layout.fillWidth: true
-                onClicked: {
-                    if (stackView.depth > 0 && stackView.currentItem.objectName !== "telemetryLogsView") {
-                        stackView.replace("TelemetryLogs.qml")
-                    }
-                    navDrawer.close()
-                }
+            BurgerMenuItem {
+                iconText: "\ue896"
+                titleText: "Telemetry Logs"
+                targetObjectName: "telemetryLogsView"
+                targetFile: "qrc:/ui/TelemetryLogs.qml"
+                targetStackView: stackView
+                targetDrawer: navDrawer
             }
 
-            ItemDelegate {
-                text: "Settings"
-                Layout.fillWidth: true
-                onClicked: {
-                    if (stackView.depth > 0 && stackView.currentItem.objectName !== "settingsView")
-                    stackView.replace("Settings.qml")
-                    navDrawer.close()
-                }
+            BurgerMenuItem {
+                iconText: "\ue8b8"
+                titleText: "Settings"
+                targetObjectName: "settingsView"
+                targetFile: "qrc:/ui/Settings.qml"
+                targetStackView: stackView
+                targetDrawer: navDrawer
             }
 
             Item { Layout.fillHeight: true } // Spacer
@@ -130,7 +98,7 @@ ApplicationWindow {
             }
 
             Label {
-                text: "Telemetry Monitor"
+                text: "<i>EnvDash</i> Telemetry Dashboard"
                 font.bold: true
                 font.pixelSize: 16
                 Layout.fillWidth: true
