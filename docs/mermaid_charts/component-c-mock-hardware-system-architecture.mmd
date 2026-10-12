@@ -1,0 +1,23 @@
+flowchart LR
+ subgraph MainUI["Main UI Thread"]
+        Form["Threshold & Node Config Forms"]
+        NodeController["Simulation Controller UI"]
+        NodeCreation["New Node Creation"]
+  end
+ subgraph SimulationWorker["HardwareSimulation Worker (QThread)"]
+        Queue["Thread-Safe Request Queue<br><i>std::queue</i>"]
+        RNG["RNG Data Generator<br><i>Mersenne Twister / Custom Distribution</i>"]
+        Loop["Simulation Loop<br><i>Iterates over QVector of Nodes</i>"]
+        UDPSender["QUdpSocket"]
+  end
+ subgraph DiscoveryMock["BroadcastDiscoveryMock Service (QThread)"]
+        MockReg["UDP Broadcaster &amp; TCP Listener<br><i>Mimics Real Firmware Discovery</i>"]
+  end
+    Queue --> Loop
+    Loop --> RNG
+    RNG --> UDPSender
+    Form -- QtQueuedConnection --> Queue
+    NodeController -- Add/Pause/Fault Request --> Queue
+    NodeCreation -- QtQueuedConnection --> MockReg
+    UDPSender -- UDP Datagrams --> Dashboard["Dashboard UdpTelemetryServer"]
+    MockReg -. Registers with .-> Dashboard

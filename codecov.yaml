@@ -1,0 +1,42 @@
+codecov:
+  require_ci_to_pass: yes
+
+ignore:
+  - "dashboard/tests/**"
+  - "firmware/tests/**"
+  - "mock_hardware/tests/**"
+
+component_management:
+  default_rules:
+    statuses:
+      - type: project
+        target: auto
+        threshold: 1%
+
+  individual_components:
+    - component_id: dashboard
+      name: Dashboard (Qt6/QML)
+      paths:
+        - dashboard/**
+      statuses:
+        - type: project
+          flags:
+            - dashboard
+
+    - component_id: firmware
+      name: Firmware (Pico 2 W)
+      paths:
+        - firmware/**
+      statuses:
+        - type: project
+          flags:
+            - firmware
+
+    - component_id: mock_hardware
+      name: Mock Hardware
+      paths:
+        - mock_hardware/**
+      statuses:
+        - type: project
+          flags:
+            - mock_hardware
