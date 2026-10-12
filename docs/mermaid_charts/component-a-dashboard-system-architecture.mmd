@@ -1,0 +1,32 @@
+stateDiagram-v2
+    direction LR
+
+    [*] --> DISCOVERY_BROADCAST_STATE : Power On / Boot
+
+    state DISCOVERY_BROADCAST_STATE {
+        [*] --> BareMetalInit
+        BareMetalInit --> UDPBroadcast : Broadcast "Node ID" @ 255.255.255.255:9999
+        UDPBroadcast --> TCPListen : Listen for Dashboard TCP Command
+        TCPListen --> [*] : Received TCP Confirm & Server IP
+    }
+
+    DISCOVERY_BROADCAST_STATE --> TRANSITION_STATE : Registration Successful
+
+    state TRANSITION_STATE {
+        [*] --> CloseSockets
+        CloseSockets --> PrintLCD : Print Debug Info (Server IP / Status)
+        PrintLCD --> [*]
+    }
+
+    TRANSITION_STATE --> TELEMETRY_BROADCAST_STATE : Init FreeRTOS Kernel
+
+    state TELEMETRY_BROADCAST_STATE {
+        [*] --> RTOS_Running
+        
+        state RTOS_Running {
+            direction TB
+            Task1 : Task 1: BME280 Sensor Read<br/><i>SPI + DMA + ISR (Async)</i>
+            Task2 : Task 2: UDP Telemetry Broadcast<br/><i>1 Hz Transmission Rate</i>
+            Task3 : Task 3: I2C LCD Display Toggling<br/><i>Stats ⇄ Device ID / IP</i>
+        }
+    }

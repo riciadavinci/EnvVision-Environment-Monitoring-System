@@ -1,0 +1,33 @@
+---
+config:
+  theme: default
+  layout: elk
+---
+flowchart LR
+    subgraph HW["Component B: <i>EnvFirm</i> (Pico 2 W + Firmware)"]
+        Pico["Sensor Node<br><i>RP2350 + FreeRTOS + lwIP</i>"]
+    end
+
+    subgraph Desktop["Host PC (Desktop Environment)"]
+        subgraph Mock["Component C: Mock Hardware App <i>EnvMock</i>"]
+            MockApp["Mock Node Manager<br><i>Qt6 / QML C++</i>"]
+        end
+
+        subgraph Dash["Component A: Desktop Dashboard <i>EnvDash</i>"]
+            UIService["Main UI & Telemetry Graph"]
+            UDPServer["UdpTelemetryServer<br><i>QUdpSocket</i>"]
+            RegManager["SensorNodeManager<br><i>UDP Listener / TCP Broadcaster</i>"]
+            DB[("AppSettings.db")]
+        end
+    end
+
+    Pico -- "UDP Telemetry (1 Hz)" --> UDPServer
+    Pico -- "UDP Discovery Broadcast" --> RegManager
+    RegManager -- "TCP Registration Confirm" --> Pico
+    MockApp -- "UDP Telemetry" --> UDPServer
+    MockApp -- "UDP Discovery / TCP" --> RegManager
+    UDPServer -- "Signal: New Data" --> UIService
+    RegManager -- "Signal: Node Event" --> UIService
+    UIService --- DB
+
+    style Desktop fill:none,stroke:#888,stroke-width:1.5px,stroke-dasharray: 5 5
