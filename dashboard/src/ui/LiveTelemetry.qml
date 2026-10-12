@@ -141,136 +141,35 @@ Item {
                     // -----------------------------------------------------------
                     // Mini-Card 2: Top Right (Pressure)
                     // -----------------------------------------------------------
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: 0
-                        Layout.preferredHeight: 0
-                        color: "#FFFFFF"
-                        border.color: "#E2E8F0"
-                        border.width: 1
-                        radius: 6
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 12
-                            spacing: 8
-
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 4
-
-                                Text {
-                                    text: "Pressure"
-                                    font.pixelSize: 13
-                                    color: "#64748B"
-                                }
-
-                                Text {
-                                    text: (telemetryController.activeNodeModel?.pressure ?? 0).toFixed(2) + " hPa"
-                                    font.pixelSize: 20
-                                    font.bold: true
-                                    color: "#0284C7"
-                                }
-                            }
-
-                            Text {
-                                text: "⏲️"
-                                font.pixelSize: 28
-                                Layout.alignment: Qt.AlignVCenter
-                            }
-                        }
+                    TelemetryGridMiniCard {
+                        metricTitle: "Pressure"
+                        metricValue: (telemetryController.activeNodeModel?.pressure ?? 0).toFixed(2) + " hPa"
+                        valueColor: "#0284C7"
+                        iconText: "⏲️"
                     }
 
 
                     // -----------------------------------------------------------
                     // Mini-Card 3: Top Right (Temperature)
                     // -----------------------------------------------------------
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: 0
-                        Layout.preferredHeight: 0
-                        color: "#FFFFFF"
-                        border.color: "#E2E8F0"
-                        border.width: 1
-                        radius: 6
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 12
-                            spacing: 8
-
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 4
-
-                                Text {
-                                    text: "Temperature"
-                                    font.pixelSize: 13
-                                    color: "#64748B"
-                                }
-
-                                Text {
-                                    text: (telemetryController.activeNodeModel?.temperature ?? 0).toFixed(2) + " °C"
-                                    font.pixelSize: 20
-                                    font.bold: true
-                                    color: "#E11D48"
-                                }
-                            }
-
-                            Text {
-                                text: "🌡️"
-                                font.pixelSize: 28
-                                Layout.alignment: Qt.AlignVCenter
-                            }
-                        }
+                    TelemetryGridMiniCard {
+                        metricTitle: "Temperature"
+                        metricValue: (telemetryController.activeNodeModel?.temperature ?? 0).toFixed(2) + " °C"
+                        valueColor: "#E11D48"
+                        iconText: "🌡️"
                     }
 
 
                     // -----------------------------------------------------------
                     // Mini-Card 4: Bottom Right
                     // -----------------------------------------------------------
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.preferredWidth: 0
-                        Layout.preferredHeight: 0
-                        color: "#FFFFFF"
-                        border.color: "#E2E8F0"
-                        border.width: 1
-                        radius: 6
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 12
-                            spacing: 8
-
-                            ColumnLayout {
-                                Layout.fillWidth: true
-                                spacing: 4
-
-                                Text {
-                                    text: "Humidity"
-                                    font.pixelSize: 13
-                                    color: "#64748B"
-                                }
-
-                                Text {
-                                    text: (telemetryController.activeNodeModel?.humidity ?? 0).toFixed(2) + " %"
-                                    font.pixelSize: 20
-                                    font.bold: true
-                                    color: "#0D9488" // Teal accent
-                                }
-                            }
-
-                            Text {
-                                text: "💧"
-                                font.pixelSize: 28
-                                Layout.alignment: Qt.AlignVCenter
-                            }
-                        }
+                    TelemetryGridMiniCard {
+                        metricTitle: "Humidity"
+                        metricValue: (telemetryController.activeNodeModel?.humidity ?? 0).toFixed(2) + " %"
+                        valueColor: "#0D9488"
+                        iconText: "💧"
                     }
+
                 }
             }
 
