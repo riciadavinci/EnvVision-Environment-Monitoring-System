@@ -6,12 +6,14 @@
 [![CMake](https://img.shields.io/badge/CMake-3.20%2B-064F8C.svg?logo=cmake)](https://cmake.org/)
 [![Build Status](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions/workflows/ci-dashboard.yaml/badge.svg)](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions)
 [![Build Status](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions/workflows/ci-firmware.yaml/badge.svg)](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions)
-[![Build Status](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions/workflows/ci-mock_hardware.yaml/badge.svg)](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions)
+[![Build Status](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions/workflows/ci-mock-hardware.yaml/badge.svg)](https://github.com/riciadavinci/EnvVisionEnvironmentMonitoringSystem/actions)
 [![codecov](https://codecov.io/gh/riciadavinci/EnvVision-Environment-Monitoring-System/graph/badge.svg?token=NONE)](https://codecov.io/gh/riciadavinci/EnvVision-Environment-Monitoring-System)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 
 ## 1. Overview
+
+An end-to-end telemetry system designed for low-latency data acquisition and live visualization from a Raspberry Pi Pico 2 W (RP2350). The repository features a FreeRTOS firmware stack utilizing DMA, hardware interrupts, and lwIP over UDP, paired with cross-platform Qt6/QML desktop applications for real-time charting and hardware node mocking. Built modularly with decoupled CMake sub-projects, component-isolated CI/CD pipelines, and unified Codecov telemetry.
 
 <br>
 
@@ -138,11 +140,37 @@ project-name/
 
 ### 5.1 Overview
 
+<!-- #### Architecture -->
+
+<div align="center">
+<img src="docs/img/top-level-system-architecture.svg" alt="Qt6 Dashboard GUI" height="350"/>
+      <br/>
+<sub><b>Figure:</b> Top-level System Architecture</sub>
+</div>
+
 ### 5.2 Component: Dashboard - _EnvDash_
+
+<div align="center">
+<img src="docs/img/component-a-dashboard-system-architecture.svg" alt="Qt6 Dashboard GUI" height="450"/>
+      <br/>
+<sub><b>Figure:</b> Component A - Dashboard (<i>EnvDash</i>) System Architecture</sub>
+</div>
 
 ### 5.3 Component: Firmware - _EnvFirm_
 
+<div align="center">
+<img src="docs/img/component-b-firmware-system-architecture.svg" alt="Qt6 Dashboard GUI" height="350"/>
+      <br/>
+<sub><b>Figure:</b> Component B - Firmware (<i>EnvFirm</i>) System Architecture</sub>
+</div>
+
 ### 5.4 Component: Mock Hardware - _EnvMock_
+
+<div align="center">
+<img src="docs/img/component-c-mock-hardware-system-architecture.svg" alt="Qt6 Dashboard GUI" height="350"/>
+      <br/>
+<sub><b>Figure:</b> Component C - Mock Hardware (<i>EnvMock</i>) System Architecture</sub>
+</div>
 
 <br>
 
